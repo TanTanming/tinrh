@@ -6,12 +6,12 @@ export const findComponent = (componentName: string) => {
   let files: IObject;
   if (typeof (import.meta as IObject).env === 'object') {
     console.log('使用Vite');
-    files = (import.meta as IObject).glob('@/wigets/**/index.vue', {
+    files = (import.meta as IObject).glob('@/widgets/**/index.vue', {
       eager: true,
     });
   } else {
     console.log('使用Webpack或未知构建工具');
-    files = (require as any)?.context('@/wigets', true, /index.vue$/);
+    files = (require as any)?.context('@/widgets', true, /index.vue$/);
   }
 
   let c;
