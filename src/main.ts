@@ -10,7 +10,7 @@ import {
   getActiveWidgets,
   deepClone,
   getFileInfo,
-  widgetFile,
+  setWidgetFile,
 } from './widget';
 import { findComponent } from './findComponent';
 import registerWidgets from './registerWidgets';
@@ -23,5 +23,5 @@ export {
   findComponent,
   registerWidgets,
   getFileInfo,
-  widgetFile,
+  setWidgetFile,
 };

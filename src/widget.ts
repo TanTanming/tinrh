@@ -4,7 +4,7 @@ import { findComponent } from './findComponent';
 const widgetsList: any = ref([]);
 const files = ref([]);
 
-export const widgetFile = (f: any) => {
+export const setWidgetFile = (f: any) => {
   files.value = f;
 };
 
