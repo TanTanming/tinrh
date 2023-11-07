@@ -7,6 +7,8 @@ export const openWidget = (componentName: string, targetSelector: string) => {
   const targetElement = document.getElementById(targetSelector);
   const c: any = findComponent(componentName);
   const widget = deepClone(c);
+  console.log(widget, componentName, c, 'widget');
+
   widget.parent = targetElement;
 
   if (!targetElement) {
