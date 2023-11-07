@@ -1,12 +1,11 @@
+import { getFileInfo } from './widget';
+
 interface IObject {
   [key: string]: any;
 }
+const files: IObject = getFileInfo();
 
 export const findComponent = (componentName: string) => {
-  const files = (import.meta as IObject).glob('@/widgets/**/index.vue', {
-    eager: true,
-  });
-
   console.log(files, 'files');
 
   let c;

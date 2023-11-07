@@ -2,6 +2,15 @@ import { createApp, h, ref } from 'vue';
 import { findComponent } from './findComponent';
 
 const widgetsList: any = ref([]);
+const files = ref([]);
+
+export const widgetFile = (f: any) => {
+  files.value = f;
+};
+
+export const getFileInfo = () => {
+  return files.value;
+};
 
 export const openWidget = (componentName: string, targetSelector: string) => {
   const targetElement = document.getElementById(targetSelector);
