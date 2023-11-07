@@ -11,8 +11,8 @@
   ],
   "type": "module",
   "types": "lib/main.d.ts",
-  "main": "dist/utils-first-npm-package.cjs",
-  "module": "dist/utils-first-npm-package.js",
+  "main": "dist/easywidget-vue.cjs",
+  "module": "dist/easywidget-vue.js",
   "files": [
     "dist"
   ],
