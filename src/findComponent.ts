@@ -3,9 +3,11 @@ interface IObject {
 }
 
 export const findComponent = (componentName: string) => {
-  const files = (import.meta as IObject).glob('./widgets/**/index.vue', {
+  const files = (import.meta as IObject).glob('@/widgets/**/index.vue', {
     eager: true,
   });
+
+  console.log(files, 'files');
 
   let c;
   Object.keys(files).forEach((fileName) => {
