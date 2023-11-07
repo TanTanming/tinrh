@@ -1,5 +1,5 @@
 {
-  "name": "easywidget-vue",
+  "name": "vue-easywidget",
   "author": "zxm",
   "version": "1.0.5",
   "description": "",
@@ -13,6 +13,9 @@
   "types": "lib/main.d.ts",
   "main": "dist/utils-first-npm-package.cjs",
   "module": "dist/utils-first-npm-package.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc -p tsconfig.build.json",
