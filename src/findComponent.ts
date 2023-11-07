@@ -6,8 +6,6 @@ interface IObject {
 const files: IObject = getFileInfo();
 
 export const findComponent = (componentName: string) => {
-  console.log(files, 'files');
-
   let c;
   Object.keys(files).forEach((fileName) => {
     const componentConfig: IObject = files[fileName];
