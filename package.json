@@ -3,21 +3,24 @@
   "author": "zxm",
   "version": "1.0.2",
   "description": "",
-  "main": "index.ts",
   "keywords": [
     "utils",
     "vue",
     "widget",
     "noRouter"
   ],
+  "type": "module",
+  "types": "lib/main.d.ts",
+  "main": "dist/utils-first-npm-package.cjs",
+  "module": "dist/utils-first-npm-package.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "license": "ISC",
-  "dependencies": {
-    "vue": "^3.3.7"
+    "dev": "vite",
+    "build": "vite build && tsc -p tsconfig.build.json",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@types/node": "^20.8.10"
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vue": "^3.3.8"
   }
 }
