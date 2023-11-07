@@ -3,9 +3,9 @@ import { getFileInfo } from './widget';
 interface IObject {
   [key: string]: any;
 }
-const files: IObject = getFileInfo();
 
 export const findComponent = (componentName: string) => {
+  const files: IObject = getFileInfo();
   let c;
   Object.keys(files).forEach((fileName) => {
     const componentConfig: IObject = files[fileName];
