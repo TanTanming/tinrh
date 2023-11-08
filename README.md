@@ -16,7 +16,6 @@ const files: any = import.meta.glob('@/widgets/**/index.vue', {
   eager: true,
 });
 const widgets = registerWidgets(files);
-setWidgetFile(files);
 
 createApp(App).use(widgets).mount('#app');
 ```
