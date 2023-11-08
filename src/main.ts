@@ -1,16 +1,11 @@
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    widget
-  </div>
-`;
-
 import {
   openWidget,
   closeWidget,
   getActiveWidgets,
   deepClone,
-  getFileInfo,
+  getWidgetInfo,
   setWidgetFile,
+  closeAllWidgets,
 } from './widget';
 import { findComponent } from './findComponent';
 import registerWidgets from './registerWidgets';
@@ -22,6 +17,7 @@ export {
   deepClone,
   findComponent,
   registerWidgets,
-  getFileInfo,
+  getWidgetInfo,
   setWidgetFile,
+  closeAllWidgets,
 };

@@ -8,17 +8,20 @@ export const setWidgetFile = (f: any) => {
   files.value = f;
 };
 
-export const getFileInfo = () => {
+export const getWidgetInfo = () => {
   return files.value;
 };
 
-export const openWidget = (componentName: string, targetSelector: string) => {
+export const openWidget = (
+  componentName: string,
+  targetSelector: string,
+  options = {}
+) => {
   const targetElement = document.getElementById(targetSelector);
   const c: any = findComponent(componentName);
   const widget = deepClone(c);
-  console.log(widget, componentName, c, 'widget');
-
   widget.parent = targetElement;
+  widget.options = options;
 
   if (!targetElement) {
     console.error(
@@ -41,16 +44,25 @@ export const openWidget = (componentName: string, targetSelector: string) => {
 };
 
 export const closeWidget = (widgetName: string) => {
-  widgetsList.value.forEach((item: Record<string, any>) => {
-    if (item.name === widgetName) {
-      const target = document.getElementById(item.closeId);
-      item.parent?.removeChild(target);
-    }
-  });
+  const item = widgetsList.value.find(
+    (item: Record<string, any>) => item.name === widgetName
+  );
+  if (!item) return;
+  const target = document.getElementById(item.closeId);
+  item.parent?.removeChild(target);
 
   widgetsList.value = widgetsList.value.filter(
     (item: Record<string, any>) => item.name !== widgetName
   );
+};
+
+export const closeAllWidgets = () => {
+  widgetsList.value.forEach((item: Record<string, any>) => {
+    const target = document.getElementById(item.closeId);
+    item.parent?.removeChild(target);
+  });
+
+  widgetsList.value = [];
 };
 export const getActiveWidgets = () => {
   return widgetsList.value;
