@@ -21,7 +21,6 @@ export const openWidget = (
   const c: any = findComponent(componentName);
   const widget = deepClone(c);
   widget.parent = targetElement;
-  widget.options = options;
 
   if (!targetElement) {
     console.error(
@@ -35,7 +34,7 @@ export const openWidget = (
   targetElement.appendChild(div);
   const app = createApp({
     render() {
-      return h(widget.default || widget);
+      return h(widget.default || widget, options);
     },
   });
 
@@ -58,8 +57,7 @@ export const closeWidget = (widgetName: string) => {
 
 export const closeAllWidgets = () => {
   widgetsList.value.forEach((item: Record<string, any>) => {
-    const target = document.getElementById(item.closeId);
-    item.parent?.removeChild(target);
+    closeWidget(item.name);
   });
 
   widgetsList.value = [];

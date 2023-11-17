@@ -20,9 +20,13 @@ const widgets = registerWidgets(files);
 createApp(App).use(widgets).mount('#app');
 ```
 
-### openWidget 打开组件
+### openWidget 打开微件
 
-openWidget(组件名, 挂载节点)
+name 为需要打开的微件名称
+id 即挂载的节点 id
+options 为传递的配置项，可选
+
+openWidget(name, id, options)
 
 ```
 <!-- 需要挂载的Test组件 -->
@@ -32,9 +36,14 @@ openWidget(组件名, 挂载节点)
   </div>
 </template>
 <script setup lang="ts">
+import { useAttrs } from 'vue';
+
 defineOptions({
   name: 'Test',
 });
+
+<!-- 获取传递打开微件时传递的参数 -->
+const attrs = useAttrs()
 </script>
 <style scoped>
 .bg {
@@ -64,10 +73,14 @@ onMounted(() => {
 
 ```
 
-### closeWidget 关闭组件
+### closeWidget 关闭微件
 
 closeWidget(组件名)
 
-### getActiveWidgets 获取打开的组件
+### 关闭所有打开的微件
+
+closeAllWidgets()
+
+### getActiveWidgets 获取打开的微件
 
 getActiveWidgets()
