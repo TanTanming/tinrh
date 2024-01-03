@@ -2,9 +2,9 @@ import { createApp, h, ref } from 'vue';
 import { findComponent } from './findComponent';
 
 const widgetsList: any = ref([]);
-const files = ref([]);
+const files: any = ref([]);
 
-export const setWidgetFile = (f: any) => {
+export const setWidgetFile = (f: any[]) => {
   files.value = f;
 };
 
