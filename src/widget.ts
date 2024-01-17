@@ -1,8 +1,10 @@
 import { createApp, h, ref } from 'vue';
+import { nanoid } from 'nanoid';
 import { findComponent } from './findComponent';
+type Component = import('vue').DefineComponent<{}, {}, any>;
 
-const widgetsList: any = ref([]);
-const files: any = ref([]);
+const widgetsObj: Record<string, any> = ref({});
+const files: any = ref(null);
 
 export const setWidgetFile = (f: any[]) => {
   files.value = f;
@@ -15,12 +17,14 @@ export const getWidgetInfo = () => {
 export const openWidget = (
   componentName: string,
   targetSelector: string,
-  options = {}
+  options: Record<string, any> = {}
 ) => {
-  const targetElement = document.getElementById(targetSelector);
-  const c: any = findComponent(componentName);
+  const targetElement: HTMLElement | null =
+    document.getElementById(targetSelector);
+  const c: Component = findComponent(componentName)!;
   const widget = deepClone(c);
   widget.parent = targetElement;
+  options.closeId = nanoid();
 
   if (!targetElement) {
     console.error(
@@ -28,9 +32,9 @@ export const openWidget = (
     );
     return;
   }
-  const div = document.createElement('div');
-  div.setAttribute('id', `${targetSelector}-${componentName}`);
-  widget.closeId = `${targetSelector}-${componentName}`;
+  const div: HTMLElement = document.createElement('div');
+  div.setAttribute('id', options.closeId);
+  widget.closeId = options.closeId;
   targetElement.appendChild(div);
   const app = createApp({
     render() {
@@ -39,31 +43,22 @@ export const openWidget = (
   });
 
   app.mount(div);
-  widgetsList.value.push(widget);
+  widgetsObj.value[options.closeId] = widget;
 };
 
-export const closeWidget = (widgetName: string) => {
-  const item = widgetsList.value.find(
-    (item: Record<string, any>) => item.name === widgetName
-  );
-  if (!item) return;
-  const target = document.getElementById(item.closeId);
-  item.parent?.removeChild(target);
-
-  widgetsList.value = widgetsList.value.filter(
-    (item: Record<string, any>) => item.name !== widgetName
-  );
+export const closeWidget = (key: string) => {
+  widgetsObj.value[key].parent?.removeChild(document.getElementById(key));
+  delete widgetsObj.value[key];
 };
 
 export const closeAllWidgets = () => {
-  widgetsList.value.forEach((item: Record<string, any>) => {
-    closeWidget(item.name);
+  Object.keys(widgetsObj.value).forEach((key: string) => {
+    widgetsObj.value[key].parent?.removeChild(document.getElementById(key));
   });
-
-  widgetsList.value = [];
+  widgetsObj.value = {};
 };
 export const getActiveWidgets = () => {
-  return widgetsList.value;
+  return widgetsObj.value;
 };
 
 export const deepClone = (obj: Record<string, any>) => {
