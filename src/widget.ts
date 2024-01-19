@@ -33,6 +33,7 @@ export const openWidget = (
   const widget = deepClone(c);
   widget.parent = targetElement;
   options.closeId = nanoid();
+  options.containter = targetElement;
 
   const div: HTMLElement = document.createElement('div');
   div.setAttribute('id', options.closeId);
@@ -60,10 +61,11 @@ export const closeWidget = (key: string) => {
 };
 
 export const closeAllWidgets = () => {
-  if (!widgetsObj.value) return;
-  Object.keys(widgetsObj.value).forEach((key: string) => {
-    widgetsObj.value[key].parent?.removeChild(document.getElementById(key));
-  });
+  const keys = Object.keys(widgetsObj.value);
+  if (!widgetsObj.value || keys.length === 0) return;
+  keys.forEach((key: string) =>
+    widgetsObj.value[key].parent?.removeChild(document.getElementById(key))
+  );
   widgetsObj.value = {};
   console.log('All widgets are closed.');
 };

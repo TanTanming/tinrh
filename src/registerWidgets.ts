@@ -2,6 +2,9 @@ import { App } from 'vue';
 import { setWidgetFile } from './widget';
 
 function registerWidgets(files: any) {
+  if (!files) {
+    throw new Error('registerWidgets: files is required');
+  }
   setWidgetFile(files);
   const comps: Record<string, any> = {};
   Object.keys(files).forEach((fileName) => {
