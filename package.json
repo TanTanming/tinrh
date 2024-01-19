@@ -20,9 +20,6 @@
     "build": "vite build && tsc -p tsconfig.build.json",
     "preview": "vite preview"
   },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
   "devDependencies": {
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
