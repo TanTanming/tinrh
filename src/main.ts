@@ -1,23 +1,23 @@
 import {
-  openWidget,
-  closeWidget,
-  getActiveWidgets,
+  R,
+  destroy,
+  getInstance,
   deepClone,
-  getWidgetInfo,
-  setWidgetFile,
-  closeAllWidgets,
-} from './widget';
+  getComponentInfo,
+  setFile,
+  destroyAll,
+} from './render';
 import { findComponent } from './findComponent';
-import registerWidgets from './registerWidgets';
+import register from './register';
 
 export {
-  openWidget,
-  closeWidget,
-  getActiveWidgets,
+  R,
+  destroy,
+  getInstance,
   deepClone,
   findComponent,
-  registerWidgets,
-  getWidgetInfo,
-  setWidgetFile,
-  closeAllWidgets,
+  register,
+  getComponentInfo,
+  setFile,
+  destroyAll,
 };

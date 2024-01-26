@@ -1,11 +1,11 @@
-import { getWidgetInfo } from './widget';
+import { getComponentInfo } from './render';
 
 interface IObject {
   [key: string]: any;
 }
 
 export const findComponent = (componentName: string) => {
-  const files: IObject = getWidgetInfo();
+  const files: IObject = getComponentInfo();
   let c;
   Object.keys(files).forEach((fileName) => {
     const componentConfig: IObject = files[fileName];

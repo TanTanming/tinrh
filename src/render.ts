@@ -3,16 +3,16 @@ import { nanoid } from 'nanoid';
 import { findComponent } from './findComponent';
 type Component = import('vue').DefineComponent<{}, {}, any>;
 
-const widgetsObj: Record<string, any> | null = ref({});
+const instance: Record<string, any> | null = ref({});
 const files: any = ref(null);
 
-export const setWidgetFile = (f: any[]) => {
+export const setFile = (f: any[]) => {
   files.value = f;
 };
 
-export const getWidgetInfo = () => files.value;
+export const getComponentInfo = () => files.value;
 
-export const openWidget = (
+export const R = (
   componentName: string,
   targetSelector: string,
   options: Record<string, any> = {}
@@ -46,31 +46,31 @@ export const openWidget = (
   });
 
   app.mount(div);
-  console.log(`Widget '${componentName}' 挂载成功.`);
-  widgetsObj.value[options.closeId] = widget;
+  console.log(`'${componentName}' Component mounted successfully.`);
+  instance.value[options.closeId] = widget;
   return {
     closeId: widget,
   };
 };
 
-export const closeWidget = (key: string) => {
-  if (!widgetsObj.value || !widgetsObj.value[key]) return;
-  widgetsObj.value[key].parent?.removeChild(document.getElementById(key));
-  delete widgetsObj.value[key];
-  console.log(`Widget '${key}' 卸载成功.`);
+export const destroy = (key: string) => {
+  if (!instance.value || !instance.value[key]) return;
+  instance.value[key].parent?.removeChild(document.getElementById(key));
+  delete instance.value[key];
+  console.log(`'${key}' Component uninstalled successfully.`);
 };
 
-export const closeAllWidgets = () => {
-  const keys = Object.keys(widgetsObj.value);
-  if (!widgetsObj.value || keys.length === 0) return;
+export const destroyAll = () => {
+  const keys = Object.keys(instance.value);
+  if (!instance.value || keys.length === 0) return;
   keys.forEach((key: string) =>
-    widgetsObj.value[key].parent?.removeChild(document.getElementById(key))
+    instance.value[key].parent?.removeChild(document.getElementById(key))
   );
-  widgetsObj.value = {};
-  console.log('All widgets are closed.');
+  instance.value = {};
+  console.log('All component are closed.');
 };
 
-export const getActiveWidgets = () => widgetsObj.value;
+export const getInstance = () => instance.value;
 
 export const deepClone = (obj: Record<string, any>) => {
   const result: any = Array.isArray(obj) ? [] : {};

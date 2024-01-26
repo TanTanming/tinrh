@@ -1,17 +1,17 @@
 {
-  "name": "vue-easywidget",
-  "author": "zxm",
+  "name": "tinrh",
+  "author": "codex",
   "version": "1.0.20",
   "description": "",
   "keywords": [
     "utils",
-    "vue",
-    "widget",
-    "noRouter"
+    "vue3",
+    "package",
+    "noRouter",
+    "components"
   ],
   "type": "module",
-  "types": "lib/main.d.ts",
-  "main": "dist/easywidget-vue.cjs",
+  "main": "dist/tinrh.cjs",
   "files": [
     "dist/*"
   ],

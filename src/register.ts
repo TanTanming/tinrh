@@ -1,11 +1,11 @@
 import { App } from 'vue';
-import { setWidgetFile } from './widget';
+import { setFile } from './render';
 
-function registerWidgets(files: any) {
+function register(files: any) {
   if (!files) {
-    throw new Error('registerWidgets: files is required');
+    throw new Error('register: files is required');
   }
-  setWidgetFile(files);
+  setFile(files);
   const comps: Record<string, any> = {};
   Object.keys(files).forEach((fileName) => {
     const componentConfig: Record<string, any> = files[fileName];
@@ -20,4 +20,4 @@ function registerWidgets(files: any) {
     },
   };
 }
-export default registerWidgets;
+export default register;
