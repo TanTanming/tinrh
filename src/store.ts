@@ -130,10 +130,10 @@ const sendMessage = async (messageName: string, value: Record<string, any>) => {
   };
 
   request = store?.get(messageName);
-  request.onsuccess = function (event: Event) {
+  request.onsuccess = function () {
     updateMessage(store, task);
   };
-  request.onerror = function (event: Event) {
+  request.onerror = function () {
     addMessage(store, task);
   };
 };
@@ -175,7 +175,7 @@ const reciveMessage = (messageName: string) => {
       const res = data.value || null;
       resolve(res);
     };
-    request.onerror = (event: Event) => {
+    request.onerror = () => {
       console.error('获取数据失败！');
       reject(null);
     };
@@ -198,7 +198,7 @@ const offMessage = async (messageName: string) => {
   request.onsuccess = (event: Event) => {
     console.log((event.target as any).result, `${messageName}事件已卸载`);
   };
-  request.onerror = (event: Event) => {
+  request.onerror = () => {
     console.error('数据删除失败');
   };
 };
@@ -217,7 +217,7 @@ const clearAllMessage = async () => {
   request.onsuccess = (event: Event) => {
     console.log((event.target as any).result, '消息事件已清空！');
   };
-  request.onerror = (event: Event) => {
+  request.onerror = () => {
     console.error('消息事件清空失败！');
   };
 };

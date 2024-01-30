@@ -12,6 +12,13 @@ export const setFile = (f: any[]) => {
 
 export const getComponentInfo = () => files.value;
 
+/**
+ * @description 挂载组件
+ * @param componentName 组件名称
+ * @param targetSelector 挂载节点名称
+ * @param options 传递给组件的参数
+ * @returns 当前组件
+ */
 export const R = (
   componentName: string,
   targetSelector: string,
@@ -53,6 +60,11 @@ export const R = (
   };
 };
 
+/**
+ * @description 销毁指定组件
+ * @param key 组件的closeId
+ * @returns
+ */
 export const destroy = (key: string) => {
   if (!instance.value || !instance.value[key]) return;
   instance.value[key].parent?.removeChild(document.getElementById(key));
@@ -60,6 +72,9 @@ export const destroy = (key: string) => {
   console.log(`'${key}' Component uninstalled successfully.`);
 };
 
+/**
+ * @description 销毁所有组件
+ */
 export const destroyAll = () => {
   const keys = Object.keys(instance.value);
   if (!instance.value || keys.length === 0) return;
@@ -70,8 +85,17 @@ export const destroyAll = () => {
   console.log('All component are closed.');
 };
 
+/**
+ * @description 获取所有组件
+ * @returns
+ */
 export const getInstance = () => instance.value;
 
+/**
+ * @description 简单版深拷贝
+ * @param obj
+ * @returns
+ */
 export const deepClone = (obj: Record<string, any>) => {
   const result: any = Array.isArray(obj) ? [] : {};
   for (const key in obj) {

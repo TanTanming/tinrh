@@ -1,6 +1,11 @@
 import { App } from 'vue';
 import { setFile } from './render';
 
+/**
+ * @description 注册组件
+ * @param files 组件集合
+ * @returns
+ */
 function register(files: any) {
   if (!files) {
     throw new Error('register: files is required');
