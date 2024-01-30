@@ -30,26 +30,26 @@ export const R = (
     console.error(`Component '${componentName}' not found.`);
     return;
   }
-  const widget = deepClone(c);
-  widget.parent = targetElement;
+  const map = deepClone(c);
+  map.parent = targetElement;
   options.closeId = nanoid();
   options.containter = targetElement;
 
   const div: HTMLElement = document.createElement('div');
   div.setAttribute('id', options.closeId);
-  widget.closeId = options.closeId;
+  map.closeId = options.closeId;
   targetElement.appendChild(div);
   const app = createApp({
     render() {
-      return h(widget.default || widget, options);
+      return h(map.default || map, options);
     },
   });
 
   app.mount(div);
   console.log(`'${componentName}' Component mounted successfully.`);
-  instance.value[options.closeId] = widget;
+  instance.value[options.closeId] = map;
   return {
-    closeId: widget,
+    [options.closeId]: map,
   };
 };
 

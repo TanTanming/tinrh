@@ -7,6 +7,14 @@ import {
   setFile,
   destroyAll,
 } from './render';
+import {
+  sendMessage,
+  reciveMessage,
+  offMessage,
+  clearAllMessage,
+  installMS,
+  destroyMS,
+} from './store';
 import { findComponent } from './findComponent';
 import register from './register';
 
@@ -20,4 +28,10 @@ export {
   getComponentInfo,
   setFile,
   destroyAll,
+  sendMessage,
+  reciveMessage,
+  offMessage,
+  clearAllMessage,
+  installMS,
+  destroyMS,
 };
