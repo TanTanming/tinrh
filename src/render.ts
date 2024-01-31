@@ -78,23 +78,27 @@ export const destroy = (key: string) => {
 export const destroyAll = () => {
   const keys = Object.keys(instance.value);
   if (!instance.value || keys.length === 0) return;
-  keys.forEach((key: string) =>
-    instance.value[key].parent?.removeChild(document.getElementById(key))
-  );
+  keys.forEach((key: string) => {
+    let childElements = instance.value[key].parent.children;
+    while (childElements.length > 0) {
+      instance.value[key].parent.removeChild(childElements[0]);
+    }
+    delete instance.value[key];
+  });
   instance.value = {};
-  console.log('All component are closed.');
+  console.log('All component are closed.', instance.value);
 };
 
 /**
  * @description 获取所有组件
- * @returns
+ * @returns 所有组件信息
  */
 export const getInstance = () => instance.value;
 
 /**
  * @description 简单版深拷贝
  * @param obj
- * @returns
+ * @returns 拷贝后的数据
  */
 export const deepClone = (obj: Record<string, any>) => {
   const result: any = Array.isArray(obj) ? [] : {};
