@@ -44,7 +44,7 @@ export const R = (
   const map = deepClone(c);
   map.parent = targetElement;
   options.closeId = nanoid();
-  options.containter = targetElement;
+  // options.containter = targetElement;
 
   const div: HTMLElement = document.createElement('div');
   div.setAttribute('id', options.closeId);
@@ -60,6 +60,7 @@ export const R = (
       librars.value.forEach((item: any) => {
         app.use(item);
       });
+      console.log('librars', librars.value, app);
     }
     app.mount(div);
     console.log(`'${componentName}' Component mounted successfully.`);
