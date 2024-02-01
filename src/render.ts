@@ -1,10 +1,11 @@
-import { createApp, h, ref } from 'vue';
+import { createApp, h, ref, nextTick } from 'vue';
 import { nanoid } from 'nanoid';
 import { findComponent } from './findComponent';
 type Component = import('vue').DefineComponent<{}, {}, any>;
 
 const instance: Record<string, any> | null = ref({});
 const files: any = ref(null);
+const librars = ref();
 
 export const setFile = (f: any[]) => {
   files.value = f;
@@ -12,6 +13,9 @@ export const setFile = (f: any[]) => {
 
 export const getComponentInfo = () => files.value;
 
+export const registerLibrars = (list: any[]) => {
+  librars.value = list;
+};
 /**
  * @description 挂载组件
  * @param componentName 组件名称
@@ -46,15 +50,22 @@ export const R = (
   div.setAttribute('id', options.closeId);
   map.closeId = options.closeId;
   targetElement.appendChild(div);
-  const app = createApp({
-    render() {
-      return h(map.default || map, options);
-    },
+  nextTick(() => {
+    const app = createApp({
+      render() {
+        return h(map.default || map, options);
+      },
+    });
+    if (librars.value.length > 0) {
+      librars.value.forEach((item: any) => {
+        app.use(item);
+      });
+    }
+    app.mount(div);
+    console.log(`'${componentName}' Component mounted successfully.`);
+    instance.value[options.closeId] = map;
   });
 
-  app.mount(div);
-  console.log(`'${componentName}' Component mounted successfully.`);
-  instance.value[options.closeId] = map;
   return {
     [options.closeId]: map,
   };
