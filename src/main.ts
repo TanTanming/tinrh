@@ -6,6 +6,7 @@ import {
   getComponentInfo,
   setFile,
   destroyAll,
+  registerLibrars,
 } from './render';
 import {
   sendMessage,
@@ -34,4 +35,5 @@ export {
   clearAllMessage,
   installMS,
   destroyMS,
+  registerLibrars,
 };
