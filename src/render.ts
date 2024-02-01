@@ -60,9 +60,9 @@ export const R = (
       librars.value.forEach((item: any) => {
         app.use(item);
       });
-      console.log('librars', librars.value, app);
     }
     app.mount(div);
+    console.log('librars', librars.value, app);
     console.log(`'${componentName}' Component mounted successfully.`);
     instance.value[options.closeId] = map;
   });
