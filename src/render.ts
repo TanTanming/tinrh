@@ -1,7 +1,6 @@
 import { createApp, ref } from 'vue';
 import { nanoid } from 'nanoid';
 import { findComponent } from './findComponent';
-import register from './register';
 type Component = import('vue').DefineComponent<{}, {}, any>;
 
 const instance: Record<string, any> | null = ref({});
