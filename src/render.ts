@@ -1,4 +1,4 @@
-import { createApp, h, ref, nextTick } from 'vue';
+import { createApp, ref } from 'vue';
 import { nanoid } from 'nanoid';
 import { findComponent } from './findComponent';
 type Component = import('vue').DefineComponent<{}, {}, any>;
@@ -53,12 +53,8 @@ export const R = async (
     map.closeId = options.closeId;
     targetElement!.appendChild(div);
 
-    nextTick(() => {
-      const app = createApp({
-        render() {
-          return h(map.default || map, options);
-        },
-      });
+    setTimeout(() => {
+      const app = createApp(map.default || map, options);
 
       if (librars.value.length > 0) {
         librars.value.forEach((item: any) => {
@@ -67,11 +63,11 @@ export const R = async (
       }
 
       app.mount(div);
-      console.log('librars', librars.value, app);
       console.log(`'${componentName}' Component mounted successfully.`);
+      console.log('librars', librars.value, app);
       instance.value[options.closeId] = map;
       resolve({ [options.closeId]: map });
-    });
+    }, 0);
   });
 };
 
