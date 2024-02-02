@@ -6,7 +6,7 @@ import { setFile } from './render';
  * @param files 组件集合
  * @returns
  */
-function register(files: any) {
+async function register(files: any, plugins: any[] = []) {
   if (!files) {
     throw new Error('register: files is required');
   }
@@ -22,6 +22,11 @@ function register(files: any) {
       Object.keys(comps).forEach((key: string) => {
         app.component(key, comps[key]);
       });
+      if (plugins.length > 0) {
+        plugins.forEach((item: any) => {
+          app.use(item);
+        });
+      }
     },
   };
 }

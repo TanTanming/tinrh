@@ -1,6 +1,7 @@
 import { createApp, ref } from 'vue';
 import { nanoid } from 'nanoid';
 import { findComponent } from './findComponent';
+import register from './register';
 type Component = import('vue').DefineComponent<{}, {}, any>;
 
 const instance: Record<string, any> | null = ref({});
@@ -13,7 +14,7 @@ export const setFile = (f: any[]) => {
 
 export const getComponentInfo = () => files.value;
 
-export const registerLibrars = (list: any[]) => {
+export const setLibrars = (list: any) => {
   librars.value = list;
 };
 /**
@@ -28,7 +29,7 @@ export const R = async (
   targetSelector: string,
   options: Record<string, any> = {}
 ) => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const targetElement: HTMLElement | null =
       document.getElementById(targetSelector);
     if (!targetElement) {
@@ -55,16 +56,14 @@ export const R = async (
 
     setTimeout(() => {
       const app = createApp(map.default || map, options);
-
-      if (librars.value.length > 0) {
-        librars.value.forEach((item: any) => {
-          app.use(item);
-        });
+      const plugins = librars.value;
+      if (plugins) {
+        app.use(plugins);
       }
 
       app.mount(div);
       console.log(`'${componentName}' Component mounted successfully.`);
-      console.log('librars', librars.value, app);
+      console.log('librars', plugins, app);
       instance.value[options.closeId] = map;
       resolve({ [options.closeId]: map });
     }, 0);
