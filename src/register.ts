@@ -1,4 +1,4 @@
-import { App } from 'vue';
+// import { App } from 'vue';
 import { setFile } from './render';
 
 /**
@@ -6,6 +6,7 @@ import { setFile } from './render';
  * @param files 组件集合
  * @returns
  */
+
 async function register(files: any, plugins: any[] = []) {
   if (!files) {
     throw new Error('register: files is required');
@@ -18,7 +19,7 @@ async function register(files: any, plugins: any[] = []) {
     comps[componentName] = componentConfig.default || componentConfig;
   });
   return {
-    install: (app: App) => {
+    install: (app: any) => {
       Object.keys(comps).forEach((key: string) => {
         app.component(key, comps[key]);
       });

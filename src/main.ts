@@ -8,6 +8,7 @@ import {
   destroyAll,
   setLibrars,
 } from './render';
+import { getVue } from './getVue';
 import {
   sendMessage,
   reciveMessage,
@@ -20,6 +21,7 @@ import { findComponent } from './findComponent';
 import register from './register';
 
 export {
+  getVue,
   R,
   destroy,
   getInstance,
