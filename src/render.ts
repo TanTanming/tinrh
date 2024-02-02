@@ -1,9 +1,11 @@
-import { createApp, ref } from 'vue';
+// import { createApp, nextTick, ref } from 'vue';
 import { nanoid } from 'nanoid';
 import { findComponent } from './findComponent';
+import { usev } from './getVue';
+const { createApp, nextTick, ref } = usev;
 type Component = import('vue').DefineComponent<{}, {}, any>;
 
-const instance: Record<string, any> | null = ref({});
+const instance: Record<string, any> = ref({});
 const files: any = ref(null);
 const librars = ref();
 
@@ -53,19 +55,25 @@ export const R = async (
     map.closeId = options.closeId;
     targetElement!.appendChild(div);
 
-    setTimeout(() => {
+    nextTick(() => {
       const app = createApp(map.default || map, options);
       const plugins = librars.value;
+      debugger;
       if (plugins) {
-        app.use(plugins);
+        // app.use(plugins);
+        plugins.forEach((item: any) => {
+          app.use(item);
+          debugger;
+        });
       }
 
       app.mount(div);
+      debugger;
       console.log(`'${componentName}' Component mounted successfully.`);
-      console.log('librars', plugins, app);
-      instance.value[options.closeId] = map;
+      console.log('librars plugin', plugins, app);
+      instance!.value[options.closeId] = map;
       resolve({ [options.closeId]: map });
-    }, 0);
+    });
   });
 };
 

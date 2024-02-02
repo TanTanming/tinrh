@@ -4,6 +4,10 @@ export default defineConfig({
   build: {
     outDir: 'dist', // 自定义构建输出目录
     target: 'esnext',
+    // 排除掉不需要打包的文件
+    rollupOptions: {
+      external: ['vue'],
+    },
     lib: {
       entry: 'src/main.ts', // 入口文件路径
       formats: ['es', 'cjs'],
