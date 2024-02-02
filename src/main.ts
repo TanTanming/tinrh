@@ -7,8 +7,8 @@ import {
   setFile,
   destroyAll,
   setLibrars,
+  resolveFn,
 } from './render';
-import { getVue } from './getVue';
 import {
   sendMessage,
   reciveMessage,
@@ -21,7 +21,7 @@ import { findComponent } from './findComponent';
 import register from './register';
 
 export {
-  getVue,
+  resolveFn,
   R,
   destroy,
   getInstance,

@@ -1,22 +1,24 @@
 // import { createApp, nextTick, ref } from 'vue';
 import { nanoid } from 'nanoid';
 import { findComponent } from './findComponent';
-import { usev } from './getVue';
-const { createApp, nextTick, ref } = usev;
+
 type Component = import('vue').DefineComponent<{}, {}, any>;
 
-const instance: Record<string, any> = ref({});
-const files: any = ref(null);
-const librars = ref();
+let instance: Record<string, any> = {};
+let files: any = null;
+let librars: any = null;
+let vue: any = null;
+
+export const resolveFn = (v: any) => (vue = v);
 
 export const setFile = (f: any[]) => {
-  files.value = f;
+  files = f;
 };
 
-export const getComponentInfo = () => files.value;
+export const getComponentInfo = () => files;
 
 export const setLibrars = (list: any) => {
-  librars.value = list;
+  librars = list;
 };
 /**
  * @description 挂载组件
@@ -31,6 +33,8 @@ export const R = async (
   options: Record<string, any> = {}
 ) => {
   return new Promise(async (resolve, reject) => {
+    console.log(vue, 'application');
+    const { createApp, nextTick } = vue;
     const targetElement: HTMLElement | null =
       document.getElementById(targetSelector);
     if (!targetElement) {
@@ -57,21 +61,18 @@ export const R = async (
 
     nextTick(() => {
       const app = createApp(map.default || map, options);
-      const plugins = librars.value;
-      debugger;
+      const plugins = librars;
       if (plugins) {
         // app.use(plugins);
         plugins.forEach((item: any) => {
           app.use(item);
-          debugger;
         });
       }
 
       app.mount(div);
-      debugger;
       console.log(`'${componentName}' Component mounted successfully.`);
       console.log('librars plugin', plugins, app);
-      instance!.value[options.closeId] = map;
+      instance![options.closeId] = map;
       resolve({ [options.closeId]: map });
     });
   });
@@ -83,9 +84,9 @@ export const R = async (
  * @returns
  */
 export const destroy = (key: string) => {
-  if (!instance.value || !instance.value[key]) return;
-  instance.value[key].parent?.removeChild(document.getElementById(key));
-  delete instance.value[key];
+  if (!instance || !instance[key]) return;
+  instance[key].parent?.removeChild(document.getElementById(key));
+  delete instance[key];
   console.log(`'${key}' Component uninstalled successfully.`);
 };
 
@@ -93,24 +94,24 @@ export const destroy = (key: string) => {
  * @description 销毁所有组件
  */
 export const destroyAll = () => {
-  const keys = Object.keys(instance.value);
-  if (!instance.value || keys.length === 0) return;
+  const keys = Object.keys(instance);
+  if (!instance || keys.length === 0) return;
   keys.forEach((key: string) => {
-    let childElements = instance.value[key].parent.children;
+    let childElements = instance[key].parent.children;
     while (childElements.length > 0) {
-      instance.value[key].parent.removeChild(childElements[0]);
+      instance[key].parent.removeChild(childElements[0]);
     }
-    delete instance.value[key];
+    delete instance[key];
   });
-  instance.value = {};
-  console.log('All component are closed.', instance.value);
+  instance = {};
+  console.log('All component are closed.', instance);
 };
 
 /**
  * @description 获取所有组件
  * @returns 所有组件信息
  */
-export const getInstance = () => instance.value;
+export const getInstance = () => instance;
 
 /**
  * @description 简单版深拷贝
