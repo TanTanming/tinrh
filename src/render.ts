@@ -23,53 +23,56 @@ export const registerLibrars = (list: any[]) => {
  * @param options 传递给组件的参数
  * @returns 当前组件
  */
-export const R = (
+export const R = async (
   componentName: string,
   targetSelector: string,
   options: Record<string, any> = {}
 ) => {
-  const targetElement: HTMLElement | null =
-    document.getElementById(targetSelector);
-  if (!targetElement) {
-    console.error(
-      `Target element with selector '${targetSelector}' not found.`
-    );
-    return;
-  }
-  const c: Component = findComponent(componentName)!;
-  if (!c) {
-    console.error(`Component '${componentName}' not found.`);
-    return;
-  }
-  const map = deepClone(c);
-  map.parent = targetElement;
-  options.closeId = nanoid();
-  // options.containter = targetElement;
-
-  const div: HTMLElement = document.createElement('div');
-  div.setAttribute('id', options.closeId);
-  map.closeId = options.closeId;
-  targetElement.appendChild(div);
-  nextTick(() => {
-    const app = createApp({
-      render() {
-        return h(map.default || map, options);
-      },
-    });
-    if (librars.value.length > 0) {
-      librars.value.forEach((item: any) => {
-        app.use(item);
-      });
+  return new Promise((resolve, reject) => {
+    const targetElement: HTMLElement | null =
+      document.getElementById(targetSelector);
+    if (!targetElement) {
+      // console.error(
+      //   `Target element with selector '${targetSelector}' not found.`
+      // );
+      reject(`Target element with selector '${targetSelector}' not found.`);
     }
-    app.mount(div);
-    console.log('librars', librars.value, app);
-    console.log(`'${componentName}' Component mounted successfully.`);
-    instance.value[options.closeId] = map;
-  });
 
-  return {
-    [options.closeId]: map,
-  };
+    const c: Component | undefined = findComponent(componentName);
+    if (!c) {
+      // console.error(`Component '${componentName}' not found.`);
+      reject(`Component '${componentName}' not found.`);
+    }
+
+    const map = deepClone(c!);
+    map.parent = targetElement;
+    options.closeId = nanoid();
+
+    const div = document.createElement('div');
+    div.setAttribute('id', options.closeId);
+    map.closeId = options.closeId;
+    targetElement!.appendChild(div);
+
+    nextTick(() => {
+      const app = createApp({
+        render() {
+          return h(map.default || map, options);
+        },
+      });
+
+      if (librars.value.length > 0) {
+        librars.value.forEach((item: any) => {
+          app.use(item);
+        });
+      }
+
+      app.mount(div);
+      console.log('librars', librars.value, app);
+      console.log(`'${componentName}' Component mounted successfully.`);
+      instance.value[options.closeId] = map;
+      resolve({ [options.closeId]: map });
+    });
+  });
 };
 
 /**

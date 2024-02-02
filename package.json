@@ -11,7 +11,10 @@
     "components"
   ],
   "type": "module",
+  "license": "MIT",
+  "types": "dist/main.d.ts",
   "main": "dist/tinrh.cjs",
+  "module": "dist/tinrh.js",
   "files": [
     "dist/*"
   ],
@@ -22,10 +25,10 @@
   },
   "devDependencies": {
     "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vue": "^3.3.8"
+    "vite": "^4.4.5"
   },
   "dependencies": {
-    "nanoid": "^5.0.4"
+    "nanoid": "^5.0.4",
+    "vue": "3.3.4"
   }
 }
