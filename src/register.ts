@@ -4,7 +4,6 @@ import { setFile } from './render';
 /**
  * @description 注册组件
  * @param files 组件集合
- * @returns
  */
 
 async function register(files: any, plugins: any[] = []) {

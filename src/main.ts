@@ -8,6 +8,8 @@ import {
   destroyAll,
   setLibrars,
   resolveFn,
+  customElement,
+  aliveComponent,
 } from './render';
 import {
   sendMessage,
@@ -38,4 +40,6 @@ export {
   installMS,
   destroyMS,
   setLibrars,
+  customElement,
+  aliveComponent,
 };

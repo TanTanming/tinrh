@@ -1,19 +1,23 @@
-// import { createApp, nextTick, ref } from 'vue';
 import { nanoid } from 'nanoid';
 import { findComponent } from './findComponent';
 
 type Component = import('vue').DefineComponent<{}, {}, any>;
-
+interface IStyledElement {
+  withStyle(styles: Record<string, any>): IStyledElement;
+  widthContent(text: string): IStyledElement;
+  withAttribute(attrName: string, attrValue: string): IStyledElement;
+  withAttributes([...attrName], [...attrValue]): IStyledElement;
+  appendTo(parentElement: HTMLElement): IStyledElement;
+  getElement(): HTMLElement;
+  inheritEvents(): IStyledElement;
+}
 let instance: Record<string, any> = {};
 let files: any = null;
-let librars: any = null;
-let vue: any = null;
+let librars: [] = [];
+let vue: Record<string, any> = {};
 
-export const resolveFn = (v: any) => (vue = v);
-
-export const setFile = (f: any[]) => {
-  files = f;
-};
+export const resolveFn = (v: Record<string, any>) => (vue = v);
+export const setFile = (f: any[]) => (files = f);
 
 export const getComponentInfo = () => files;
 
@@ -33,8 +37,8 @@ export const R = async (
   options: Record<string, any> = {}
 ) => {
   return new Promise(async (resolve, reject) => {
-    console.log(vue, 'application');
     const { createApp, nextTick } = vue;
+
     const targetElement: HTMLElement | null =
       document.getElementById(targetSelector);
     if (!targetElement) {
@@ -54,16 +58,19 @@ export const R = async (
     map.parent = targetElement;
     options.closeId = nanoid();
 
-    const div = document.createElement('div');
-    div.setAttribute('id', options.closeId);
+    // const div = document.createElement('div');
+    // div.setAttribute('id', options.closeId);
     map.closeId = options.closeId;
-    targetElement!.appendChild(div);
+    const div = customElement('div')
+      .withAttribute('id', options.closeId)
+      .appendTo(targetElement!)
+      .getElement();
+    // targetElement!.appendChild(div);
 
     nextTick(() => {
       const app = createApp(map.default || map, options);
       const plugins = librars;
       if (plugins) {
-        // app.use(plugins);
         plugins.forEach((item: any) => {
           app.use(item);
         });
@@ -71,7 +78,6 @@ export const R = async (
 
       app.mount(div);
       console.log(`'${componentName}' Component mounted successfully.`);
-      console.log('librars plugin', plugins, app);
       instance![options.closeId] = map;
       resolve({ [options.closeId]: map });
     });
@@ -130,4 +136,68 @@ export const deepClone = (obj: Record<string, any>) => {
     }
   }
   return result;
+};
+
+/**
+ * @description 创建元素
+ * @param tagName 元素标签名
+ * @returns HTMLElement
+ */
+export const customElement = (tagName: string) => {
+  const element: HTMLElement = document.createElement(tagName);
+  const styledElement: IStyledElement = {
+    withStyle(styles: Record<string, any>) {
+      Object.assign(element.style, styles);
+      return styledElement;
+    },
+    widthContent(text: string) {
+      element.textContent = text;
+      return styledElement;
+    },
+    withAttribute(attrName: string, attrValue: string) {
+      element.setAttribute(attrName, attrValue);
+      return styledElement;
+    },
+    withAttributes([...attrName], [...attrValue]) {
+      attrName.forEach((name, index) => {
+        element.setAttribute(name, attrValue[index]);
+      });
+      return styledElement;
+    },
+    appendTo(parentElement: HTMLElement) {
+      parentElement.appendChild(element);
+      return styledElement;
+    },
+    getElement(): HTMLElement {
+      return element;
+    },
+    inheritEvents() {
+      for (const key in element) {
+        if (
+          typeof element[key as keyof HTMLElement] === 'function' &&
+          key.startsWith('on')
+        ) {
+          styledElement[key as keyof IStyledElement] = (
+            element[key as keyof HTMLElement] as Function
+          ).bind(element);
+        }
+      }
+      return styledElement;
+    },
+  };
+
+  return styledElement;
+};
+
+/**
+ * @description 隐藏组件
+ * @param key 组件的closeId
+ * @param isActive false隐藏组件，true显示组件
+ */
+export const aliveComponent = (key: string, isActive: boolean) => {
+  const element = document.getElementById(key);
+  if (!element) {
+    throw new Error(`${key} is not found`);
+  }
+  element.style.display = isActive ? 'black' : 'none';
 };
